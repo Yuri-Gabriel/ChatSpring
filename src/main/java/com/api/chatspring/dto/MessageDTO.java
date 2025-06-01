@@ -9,6 +9,8 @@ public class MessageDTO {
     private UserDTO user;
     private String content;
     private Date timestamp;
+    
+    public MessageDTO() {}
 
     public MessageDTO(Message message) {
         this.id_message = message.getId_message();

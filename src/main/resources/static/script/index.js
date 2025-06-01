@@ -1,3 +1,9 @@
+const user = sessionStorage.getItem("user");
+
+if(user != null) {
+    window.location.href = "/chat";
+}
+
 const button_start = document.getElementById("button_start");
 
 button_start.addEventListener("click", () => {

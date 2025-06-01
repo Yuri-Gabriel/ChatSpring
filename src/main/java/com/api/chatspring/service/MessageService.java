@@ -24,4 +24,5 @@ public class MessageService {
         Message message_created = repository.save(message);
         return message_created != null;
     }
+    
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.api.chatspring.model.User;
 import com.api.chatspring.repository.UserRepository;
 
+
 @Service
 public class UserService {
     @Autowired
