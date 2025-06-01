@@ -6,7 +6,7 @@ button_start.addEventListener("click", () => {
         alert("Username is empty");
         return;
     } else if(username.length < 3) {
-        alert("The username is small: " + username);
+        alert("Username is small: " + username);
         return;
     }
     
@@ -19,19 +19,17 @@ button_start.addEventListener("click", () => {
             username: username
         })
     })
-    .then(async response => {
+    .then(response => {
         if(response.status == 201) {
             return response.json();
         }
-		const errorJson = await response.json();
-		throw new Error(errorJson.message || "Erro desconhecido");
+        throw new Error(response.statusText);
     })
     .then(json => {
         window.sessionStorage.setItem("user", JSON.stringify(json));
         window.location.href = "/chat";
     })
     .catch(error => {
-		console.log(error.message);
         alert(error.message);
     });
 });   

@@ -11,7 +11,7 @@ public class ViewController {
     public String indexView() {
         return "index";
     }
-    @GetMapping("chat")
+    @GetMapping("/chat")
     public String chatView() {
         return "chat";
     }

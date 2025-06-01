@@ -6,14 +6,14 @@ import com.api.chatspring.model.Message;
 
 public class MessageDTO {
     private Long id_message;
-    private Long user_id;
+    private UserDTO user;
     private String content;
     private Date timestamp;
 
-     public MessageDTO(Message message) {
+    public MessageDTO(Message message) {
         this.id_message = message.getId_message();
         this.content = message.getContent();
-        this.user_id = message.getUser_id();
+        this.user = new UserDTO(message.getUser());
     }
 
     public Long getId_message() {
@@ -24,12 +24,12 @@ public class MessageDTO {
         this.id_message = id_message;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public UserDTO getUser() {
+        return user;
     }
 
-    public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(UserDTO user) {
+        this.user = user;
     }
 
     public String getContent() {

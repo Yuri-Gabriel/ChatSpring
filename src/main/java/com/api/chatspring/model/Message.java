@@ -24,7 +24,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_message_user"))
-    private Long user_id;
+    private User user;
 
     private String content;
 
@@ -35,27 +35,27 @@ public class Message {
     public Message(MessageDTO message) {
         this.id_message = message.getId_message();
         this.content = message.getContent();
-        this.user_id = message.getUser_id();
+        this.user = new User(message.getUser());
     }
 
     public Long getId_message() {
-        return id_message;
+        return this.id_message;
     }
 
     public void setId_message(Long id_message) {
         this.id_message = id_message;
     }
 
-    public Long getUser_id() {
-        return user_id;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setUser(Long user_id) {
-        this.user_id = user_id;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
@@ -63,7 +63,7 @@ public class Message {
     }
 
     public Date getTimestamp() {
-        return timestamp;
+        return this.timestamp;
     }
 
     public void setTimestamp(Date timestamp) {
