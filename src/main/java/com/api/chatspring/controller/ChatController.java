@@ -7,6 +7,9 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,41 +32,19 @@ public class ChatController {
 
     @Autowired
     private UserService userService;
-
-    @GetMapping("/getMessages")
-    public ResponseEntity<Object> getMessages() {
-        try {
-            Optional<List<Message>> messages = messageService.getAllMessages();
-            if(messages.isPresent()) {
-                List<MessageDTO> messageDTOs = messages.get().stream()
-                                                .map(MessageDTO::new)
-                                                .collect(Collectors.toList());
-                return ResponseEntity.status(HttpStatus.OK).body(messageDTOs);
-            }
-            
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception err) {
-        	
-        	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-            		new ControllerError(err.getLocalizedMessage())
-            );
-        }
+    
+    @MessageMapping("/saveMessage")
+    @SendTo("/getMessages")
+    public MessageDTO manageMessages(MessageDTO messageDTO) {
+    	System.out.println("Mensagem recebida via WebSocket: " + messageDTO.toString());
+    	Message message = messageService.saveMessage(new Message(messageDTO));
+        return new MessageDTO(message);
     }
 
-    @PostMapping("/saveMessage")
-    public ResponseEntity<Object> saveMessage(@RequestBody MessageDTO messageDTO) {
-        try {
-            boolean created = messageService.saveMessage(new Message(messageDTO));
-            
-            if(created) return ResponseEntity.status(HttpStatus.CREATED).body(null);
-            
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        } catch (Exception err) {
-        	
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-            		new ControllerError(err.getLocalizedMessage())
-            );
-        }
+    
+    public void saveMessage(MessageDTO messageDTO) {
+    	System.out.println(messageDTO);
+        messageService.saveMessage(new Message(messageDTO));
     }
 
     @PostMapping("/saveUser")

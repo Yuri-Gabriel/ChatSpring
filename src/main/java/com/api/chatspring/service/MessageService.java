@@ -20,9 +20,8 @@ public class MessageService {
         );
     }
 
-    public boolean saveMessage(Message message) {
-        Message message_created = repository.save(message);
-        return message_created != null;
+    public Message saveMessage(Message message) {
+        return repository.save(message);
     }
     
 }

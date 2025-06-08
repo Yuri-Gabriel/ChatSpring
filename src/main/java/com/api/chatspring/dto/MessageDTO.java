@@ -49,4 +49,9 @@ public class MessageDTO {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+    
+    @Override
+    public String toString() {
+    	return String.format("{user: %s, content: %s}", this.getUser().toString(), this.getContent());
+    }
 }
